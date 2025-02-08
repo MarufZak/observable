@@ -1,38 +1,50 @@
-type ChangeType = "get" | "set" | "delete";
-type ObserverType = (
-  change: ChangeType,
-  key: PropertyKey,
-  oldValue: any,
-  newValue: any
-) => void;
+type TSubject = Record<string, any>;
 
-const createObservable = (
-  subject: Record<string, any>,
-  observer: ObserverType
-) => {
-  return new Proxy(subject, {
-    get(target, key: string, value) {
-      observer("get", key, value, value);
-      return target[key as string];
-    },
-    set(target, key: string, value) {
-      const oldValue = target[key];
-      target[key] = value;
-      observer("set", key, oldValue, value);
-      return true;
-    },
-    deleteProperty(target, key: string) {
-      let returnValue = false;
-      if (key in target) {
-        observer("delete", key, target[key], undefined);
-        delete target[key];
-        returnValue = true;
-      } else {
-        observer("delete", key, undefined, undefined);
-        returnValue = false;
-      }
+interface TGetObserver {
+    type: "get";
+    key: string;
+    value: string;
+}
 
-      return returnValue;
-    },
-  });
-};
+interface TSetObserver {
+    type: "set";
+    key: string;
+    oldValue: string;
+    newValue: string;
+}
+
+interface TDeleteObserver {
+    type: "delete";
+    key: string;
+    value: string;
+}
+
+type TObserver = (args: TGetObserver | TSetObserver | TDeleteObserver) => void;
+
+function createObservable(subject: TSubject, observer: TObserver): TSubject {
+    return new Proxy(subject, {
+        get(target, key: string, value) {
+            observer({ type: "get", key, value });
+            return target[key as string];
+        },
+        set(target, key: string, value) {
+            const oldValue = target[key];
+            target[key] = value;
+            observer({ type: "set", key, oldValue, newValue: value });
+            return true;
+        },
+        deleteProperty(target, key: string) {
+            let returnValue = false;
+            if (key in target) {
+                observer({ type: "delete", key, value: target[key] });
+                delete target[key];
+                returnValue = true;
+            } else {
+                observer({ type: "delete", key, value: target[key] });
+                returnValue = false;
+            }
+
+            return returnValue;
+        },
+    });
+}
