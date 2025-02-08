@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "skipLibCheck": true,
-        "target": "es2015",
+        "target": "ES2015",
         "moduleDetection": "force",
         "isolatedModules": true,
         "verbatimModuleSyntax": true,
