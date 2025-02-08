@@ -1,9 +1,9 @@
-type ChangeType = "get" | "set";
+type ChangeType = "get" | "set" | "delete";
 type ObserverType = (
   change: ChangeType,
   key: PropertyKey,
-  oldValue: string,
-  newValue: string
+  oldValue: any,
+  newValue: any
 ) => void;
 
 const createObservable = (
@@ -20,6 +20,19 @@ const createObservable = (
       target[key] = value;
       observer("set", key, oldValue, value);
       return true;
+    },
+    deleteProperty(target, key: string) {
+      let returnValue = false;
+      if (key in target) {
+        observer("delete", key, target[key], undefined);
+        delete target[key];
+        returnValue = true;
+      } else {
+        observer("delete", key, undefined, undefined);
+        returnValue = false;
+      }
+
+      return returnValue;
     },
   });
 };

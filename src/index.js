@@ -10,5 +10,18 @@ var createObservable = function (subject, observer) {
             observer("set", key, oldValue, value);
             return true;
         },
+        deleteProperty: function (target, key) {
+            var returnValue = false;
+            if (key in target) {
+                observer("delete", key, target[key], undefined);
+                delete target[key];
+                returnValue = true;
+            }
+            else {
+                observer("delete", key, undefined, undefined);
+                returnValue = false;
+            }
+            return returnValue;
+        },
     });
 };
