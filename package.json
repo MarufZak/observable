@@ -5,7 +5,9 @@
     "type": "module",
     "scripts": {
         "dev": "tsc --watch ./src/index.ts --outDir ./dist",
-        "build": "tsc"
+        "build": "tsc",
+        "format:check": "prettier . --check",
+        "format:write": "prettier . --write"
     },
     "keywords": [],
     "author": "",
