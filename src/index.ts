@@ -1,11 +1,11 @@
+import { getTraps } from "./traps/index.js";
 import type { TObserver, TSubject } from "./types.js";
 
 export function createObservable(subject: TSubject, observer: TObserver) {
+    const { get } = getTraps(observer);
+
     return new Proxy(subject, {
-        get(target, key: string, value) {
-            observer({ type: "get", key, value });
-            return target[key as string];
-        },
+        get,
         set(target, key: string, value) {
             const oldValue = target[key];
             target[key] = value;
