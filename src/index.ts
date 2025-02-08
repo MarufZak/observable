@@ -1,4 +1,4 @@
-type ChangeType = "get";
+type ChangeType = "get" | "set";
 type ObserverType = (
   change: ChangeType,
   key: PropertyKey,
@@ -7,19 +7,19 @@ type ObserverType = (
 ) => void;
 
 const createObservable = (
-  subject: Record<string, unknown>,
+  subject: Record<string, any>,
   observer: ObserverType
 ) => {
   return new Proxy(subject, {
-    get(target, key, value) {
+    get(target, key: string, value) {
       observer("get", key, value, value);
       return target[key as string];
     },
+    set(target, key: string, value) {
+      const oldValue = target[key];
+      target[key] = value;
+      observer("set", key, oldValue, value);
+      return true;
+    },
   });
 };
-
-const target: Record<string, unknown> = { ok: "ok" };
-const observable = createObservable(target, () => {});
-
-const t = observable.ok;
-console.log({ t });
