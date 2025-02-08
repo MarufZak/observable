@@ -21,7 +21,7 @@ interface TDeleteObserver {
 
 type TObserver = (args: TGetObserver | TSetObserver | TDeleteObserver) => void;
 
-function createObservable(subject: TSubject, observer: TObserver): TSubject {
+export function createObservable(subject: TSubject, observer: TObserver): TSubject {
     return new Proxy(subject, {
         get(target, key: string, value) {
             observer({ type: "get", key, value });
