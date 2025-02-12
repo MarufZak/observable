@@ -1,7 +1,7 @@
-import { createSetTrap } from "./set.js";
-import { createGetTrap } from "./get.js";
-import type { TObserver } from "../types.js";
-import { createDeletePropertyTrap } from "./deleteProperty.js";
+import { createSetTrap } from "./set";
+import { createGetTrap } from "./get";
+import type { TObserver } from "../types";
+import { createDeletePropertyTrap } from "./deleteProperty";
 
 export const getTraps = (observer: TObserver) => {
     const get = createGetTrap(observer);

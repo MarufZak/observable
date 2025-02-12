@@ -1,4 +1,4 @@
-import type { TKey, TObserver, TSubject } from "../types.js";
+import type { TKey, TObserver, TSubject } from "../types";
 
 export const createDeletePropertyTrap = (observer: TObserver) => {
     return (target: TSubject, key: TKey) => {

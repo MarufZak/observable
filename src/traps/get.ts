@@ -1,4 +1,4 @@
-import type { TKey, TObserver, TSubject, TValue } from "../types.js";
+import type { TKey, TObserver, TSubject } from "../types";
 
 export const createGetTrap = (observer: TObserver) => {
     return (target: TSubject, key: TKey) => {
