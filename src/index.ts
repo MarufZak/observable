@@ -7,17 +7,16 @@ export function createObservable<TObservableSubject extends TSubject>(
     observer: TObserver,
     path: TPath = ""
 ) {
-    const finalSubject = subject;
     const traps = getTraps(observer, path);
 
-    if (isObjectSubject(finalSubject)) {
-        for (const key in finalSubject) {
-            if (typeof finalSubject[key] !== "object" || !finalSubject[key]) {
+    if (isObjectSubject(subject)) {
+        for (const key in subject) {
+            if (typeof subject[key] !== "object" || !subject[key]) {
                 continue;
             }
 
-            finalSubject[key] = createObservable(
-                finalSubject[key],
+            subject[key] = createObservable(
+                subject[key],
                 observer,
                 getObjectTrace(path, key)
             );
@@ -26,5 +25,5 @@ export function createObservable<TObservableSubject extends TSubject>(
         console.log();
     }
 
-    return new Proxy<TObservableSubject>(finalSubject, traps);
+    return new Proxy<TObservableSubject>(subject, traps);
 }
