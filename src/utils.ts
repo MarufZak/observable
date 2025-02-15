@@ -1,3 +1,3 @@
 export const getObjectTrace = (...keys: string[]) => {
-    return keys.join("").split("").join(".");
+    return keys.filter(Boolean).join(".");
 };
