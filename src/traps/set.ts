@@ -1,8 +1,8 @@
-import type { TKey, TObserver, TPath, TSubject, TValue } from "../types";
+import type { TKey, TObserver, TPath, TSubjectObject, TValue } from "../types";
 import { getObjectTrace } from "../utils";
 
 export const createSetTrap = (observer: TObserver, path: TPath) => {
-    return (target: TSubject, key: TKey, value: TValue) => {
+    return (target: TSubjectObject, key: TKey, value: TValue) => {
         const oldValue = target[key];
         target[key] = value;
         observer({
