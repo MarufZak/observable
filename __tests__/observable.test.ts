@@ -76,4 +76,67 @@ describe("createObservable", () => {
             newValue: "London",
         });
     });
+
+    it("should track ownKeys operations", () => {
+        const observer = jest.fn();
+        const subject = { name: "John", age: 30 };
+
+        const observable = createObservable(subject, observer);
+
+        Object.keys(observable);
+
+        expect(observer).toHaveBeenCalledWith({
+            type: "ownKeys",
+            key: null,
+            value: ["name", "age"],
+        });
+    });
+
+    it("should handle nested objects with multiple operations", () => {
+        const observer = jest.fn();
+        const subject: TSubjectObject = {
+            user: {
+                name: "John",
+                address: {
+                    city: "New York",
+                    details: {
+                        street: "Broadway",
+                        zip: "10001",
+                    },
+                },
+            },
+        };
+
+        const observable = createObservable(subject, observer);
+
+        const street = observable.user.address.details.street;
+        expect(street).toBe("Broadway");
+        expect(observer).toHaveBeenLastCalledWith({
+            type: "get",
+            key: "user.address.details.street",
+            value: "Broadway",
+        });
+
+        observable.user.address.details.zip = "10002";
+        expect(observer).toHaveBeenCalledWith({
+            type: "set",
+            key: "user.address.details.zip",
+            oldValue: "10001",
+            newValue: "10002",
+        });
+
+        delete observable.user.address.details.street;
+        expect(observer).toHaveBeenLastCalledWith({
+            type: "delete",
+            key: "user.address.details.street",
+            value: "Broadway",
+        });
+
+        Object.keys(observable.user.address.details);
+        expect(observer).toHaveBeenLastCalledWith({
+            type: "ownKeys",
+            key: "user.address.details",
+            value: ["zip"],
+        });
+    });
 });
