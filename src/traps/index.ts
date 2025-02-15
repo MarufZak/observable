@@ -6,7 +6,7 @@ import { createDeletePropertyTrap } from "./deleteProperty";
 export const getTraps = (observer: TObserver, path: TPath) => {
     const get = createGetTrap(observer, path);
     const set = createSetTrap(observer, path);
-    const deleteProperty = createDeletePropertyTrap(observer);
+    const deleteProperty = createDeletePropertyTrap(observer, path);
 
     return {
         get,
