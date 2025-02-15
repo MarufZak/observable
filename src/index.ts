@@ -1,5 +1,6 @@
 import { getTraps } from "./traps/index";
 import type { TObserver, TPath, TSubject } from "./types";
+import { getObjectTrace } from "./utils";
 
 export function createObservable<TObservableSubject extends TSubject>(
     subject: TObservableSubject,
@@ -14,7 +15,11 @@ export function createObservable<TObservableSubject extends TSubject>(
             continue;
         }
 
-        finalSubject[key] = createObservable(subject[key], observer, path + key);
+        finalSubject[key] = createObservable(
+            subject[key],
+            observer,
+            getObjectTrace(path, key)
+        );
     }
 
     return new Proxy<TObservableSubject>(finalSubject, {
