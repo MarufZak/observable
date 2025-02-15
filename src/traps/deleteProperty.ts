@@ -2,16 +2,13 @@ import type { TKey, TObserver, TSubject } from "../types";
 
 export const createDeletePropertyTrap = (observer: TObserver) => {
     return (target: TSubject, key: TKey) => {
-        let returnValue = false;
         if (key in target) {
             observer({ type: "delete", key, value: target[key] });
             delete target[key];
-            returnValue = true;
+            return true;
         } else {
             observer({ type: "delete", key, value: target[key] });
-            returnValue = false;
+            return false;
         }
-
-        return returnValue;
     };
 };
