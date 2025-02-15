@@ -17,7 +17,7 @@ export function createObservable<TObservableSubject extends TSubject>(
         finalSubject[key] = createObservable(subject[key], observer, path + key);
     }
 
-    return new Proxy<TObservableSubject>(subject, {
+    return new Proxy<TObservableSubject>(finalSubject, {
         get,
         set,
         deleteProperty,
