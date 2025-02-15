@@ -49,4 +49,30 @@ describe("createObservable", () => {
             value: "John",
         });
     });
+
+    it("should handle nested objects", () => {
+        const observer = jest.fn();
+        const subject = {
+            user: {
+                name: "John",
+                address: {
+                    city: "New York",
+                },
+            },
+        };
+
+        const observable = createObservable(subject, observer);
+
+        const oldCity = observable.user.address.city;
+        observable.user.address.city = "London";
+
+        expect(oldCity).toBe("New York");
+        expect(observable.user.address.city).toBe("London");
+        expect(observer).toHaveBeenCalledWith({
+            type: "set",
+            key: "user.address.city",
+            oldValue: "New York",
+            newValue: "London",
+        });
+    });
 });
