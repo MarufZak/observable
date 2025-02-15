@@ -23,6 +23,3 @@ export function createObservable(
         deleteProperty,
     });
 }
-
-const observable = createObservable({ a: { b: { c: "c" } } }, console.log);
-observable.a.b.c;
