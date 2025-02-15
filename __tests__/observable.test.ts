@@ -1,4 +1,5 @@
 import { createObservable } from "../src/index";
+import { TSubjectObject } from "../src/types";
 
 describe("createObservable", () => {
     it("should create an observable object that tracks get operations", () => {
@@ -36,7 +37,7 @@ describe("createObservable", () => {
 
     it("should track delete operations", () => {
         const observer = jest.fn();
-        const subject: Record<string, unknown> = { name: "John", age: 30 };
+        const subject: TSubjectObject = { name: "John", age: 30 };
 
         const observable = createObservable(subject, observer);
 

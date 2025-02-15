@@ -12,5 +12,6 @@
         "moduleResolution": "bundler",
         "declaration": true,
         "lib": ["es2022", "DOM"]
-    }
+    },
+    "exclude": ["./dist"]
 }

@@ -1,7 +1,8 @@
 export type TKey = string;
 export type TValue = any;
-export type TSubjectObject = Record<TKey, TValue>;
 export type TSubjectFunction = (...args: any) => any;
+export type TSubjectObject = Record<string, TValue>;
+export type TSubject = TSubjectObject | TSubjectFunction;
 export type TPath = string;
 
 export type TGetObserver = {
