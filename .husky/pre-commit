@@ -1,2 +1,3 @@
+npm run test
 npm run format:write
 npm run lint:fix
