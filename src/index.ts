@@ -1,8 +1,21 @@
 import { getTraps } from "./traps/index";
-import type { TObserver, TSubject } from "./types";
+import type { TObserver, TPath, TSubject } from "./types";
 
-export function createObservable(subject: TSubject, observer: TObserver) {
-    const { get, set, deleteProperty } = getTraps(observer);
+export function createObservable(
+    subject: TSubject,
+    observer: TObserver,
+    path: TPath = ""
+) {
+    const finalSubject = subject;
+    const { get, set, deleteProperty } = getTraps(observer, path);
+
+    for (const key in subject) {
+        if (typeof subject[key] !== "object") {
+            continue;
+        }
+
+        finalSubject[key] = createObservable(subject[key], observer, path + key);
+    }
 
     return new Proxy(subject, {
         get,
@@ -10,3 +23,6 @@ export function createObservable(subject: TSubject, observer: TObserver) {
         deleteProperty,
     });
 }
+
+const observable = createObservable({ a: { b: { c: "c" } } }, console.log);
+observable.a.b.c;

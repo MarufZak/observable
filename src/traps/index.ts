@@ -1,10 +1,10 @@
 import { createSetTrap } from "./set";
 import { createGetTrap } from "./get";
-import type { TObserver } from "../types";
+import type { TObserver, TPath } from "../types";
 import { createDeletePropertyTrap } from "./deleteProperty";
 
-export const getTraps = (observer: TObserver) => {
-    const get = createGetTrap(observer);
+export const getTraps = (observer: TObserver, path: TPath) => {
+    const get = createGetTrap(observer, path);
     const set = createSetTrap(observer);
     const deleteProperty = createDeletePropertyTrap(observer);
 
