@@ -21,8 +21,6 @@ export function createObservable<TObservableSubject extends TSubject>(
                 getObjectTrace(path, key)
             );
         }
-    } else {
-        console.log();
     }
 
     return new Proxy<TObservableSubject>(subject, traps);
