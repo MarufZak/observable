@@ -1,6 +1,6 @@
-import { getTraps } from "./traps/index";
+import { getTraps } from "./traps";
 import type { TObserver, TPath, TSubject } from "./types";
-import { getObjectTrace, isObjectSubject } from "./utils";
+import { getObjectTrace, isObjectSubject, isPrimitiveType } from "./utils";
 
 export function createObservable<TObservableSubject extends TSubject>(
     subject: TObservableSubject,
@@ -11,7 +11,7 @@ export function createObservable<TObservableSubject extends TSubject>(
 
     if (isObjectSubject(subject)) {
         for (const key in subject) {
-            if (typeof subject[key] !== "object" || !subject[key]) {
+            if (isPrimitiveType(subject[key])) {
                 continue;
             }
 

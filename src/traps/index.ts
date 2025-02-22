@@ -4,6 +4,7 @@ import type { TObserver, TPath } from "../types";
 import { createDeletePropertyTrap } from "./deleteProperty";
 import { createOwnKeysTrap } from "./ownKeys";
 import { createHasTrap } from "./has";
+import { createApplyTrap } from "./apply";
 
 export const getTraps = (observer: TObserver, path: TPath) => {
     const get = createGetTrap(observer, path);
@@ -11,6 +12,7 @@ export const getTraps = (observer: TObserver, path: TPath) => {
     const ownKeys = createOwnKeysTrap(observer, path);
     const set = createSetTrap(observer, path);
     const deleteProperty = createDeletePropertyTrap(observer, path);
+    const apply = createApplyTrap(observer, path);
 
     return {
         get,
@@ -18,5 +20,6 @@ export const getTraps = (observer: TObserver, path: TPath) => {
         ownKeys,
         set,
         deleteProperty,
+        apply,
     };
 };

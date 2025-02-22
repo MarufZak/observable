@@ -35,6 +35,12 @@ export type TDeleteObserver = {
     value: string;
 };
 
+export type TApplyObserver = {
+    type: "apply";
+    key: string;
+    args: any;
+};
+
 export type TObserver = (
     args:
         | TGetObserver
@@ -42,4 +48,5 @@ export type TObserver = (
         | TDeleteObserver
         | TOwnKeysObserver
         | THasObserver
+        | TApplyObserver
 ) => void;

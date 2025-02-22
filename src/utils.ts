@@ -7,3 +7,16 @@ export const getObjectTrace = (...keys: string[]) => {
 export const isObjectSubject = (subject: TSubject): subject is TSubjectObject => {
     return typeof subject === "object";
 };
+
+const primitiveTypes = [
+    "boolean",
+    "string",
+    "bigint",
+    "number",
+    "undefined",
+    "symbol",
+];
+
+export const isPrimitiveType = (value: unknown): value is unknown => {
+    return primitiveTypes.includes(typeof value);
+};
