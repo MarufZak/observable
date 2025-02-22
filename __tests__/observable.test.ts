@@ -57,8 +57,9 @@ describe("createObservable", () => {
 
         const observable = createObservable(subject, observer);
 
-        Object.keys(observable);
+        const keys = Object.keys(observable);
 
+        expect(keys).toMatchObject(["name", "age"]);
         expect(observer).toHaveBeenCalledWith({
             type: "ownKeys",
             key: null,
@@ -71,8 +72,9 @@ describe("createObservable", () => {
         const subject: TSubjectObject = { name: "John", age: 30 };
 
         const observable = createObservable(subject, observer);
-        "name" in observable;
+        const result = "name" in observable;
 
+        expect(result).toBe(true);
         expect(observer).toHaveBeenCalledWith({
             type: "has",
             key: "name",
@@ -83,14 +85,13 @@ describe("createObservable", () => {
         const observer = jest.fn();
         const subject: TSubjectFunction = (args: any) => args;
 
-        const args = ["one", "two", "three"];
-
         const observable = createObservable(subject, observer);
-        observable(...args);
+        const result = observable("ok");
 
+        expect(result).toBe("ok");
         expect(observer).toHaveBeenCalledWith({
             type: "apply",
-            args,
+            args: ["ok"],
         });
     });
 
@@ -133,6 +134,8 @@ describe("createObservable", () => {
         const observable = createObservable(subject, observer);
 
         observable.user.address.details.zip = "10002";
+
+        expect(subject.user.address.details.zip).toBe("10002");
         expect(observer).toHaveBeenCalledWith({
             type: "set",
             key: "user.address.details.zip",
@@ -154,13 +157,14 @@ describe("createObservable", () => {
         };
 
         const observable = createObservable(subject, observer);
-
         delete observable.user.address.details.street;
+
         expect(observer).toHaveBeenLastCalledWith({
             type: "delete",
             key: "user.address.details.street",
             value: "Broadway",
         });
+        expect(subject.user.address.details.street).not.toBeDefined();
     });
 
     it("should handle nested ownKeys operations", () => {
@@ -176,8 +180,9 @@ describe("createObservable", () => {
         };
 
         const observable = createObservable(subject, observer);
+        const keys = Object.keys(observable.user.address.details);
 
-        Object.keys(observable.user.address.details);
+        expect(keys).toEqual(["zip"]);
         expect(observer).toHaveBeenLastCalledWith({
             type: "ownKeys",
             key: "user.address.details",
@@ -198,8 +203,9 @@ describe("createObservable", () => {
         };
 
         const observable = createObservable(subject, observer);
-        "zip" in observable.user.address.details;
+        const result = "zip" in observable.user.address.details;
 
+        expect(result).toBe(true);
         expect(observer).toHaveBeenNthCalledWith(4, {
             type: "has",
             key: "user.address.details.zip",
