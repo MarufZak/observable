@@ -1,5 +1,5 @@
 import { createObservable } from "../src/index";
-import { TSubjectObject } from "../src/types";
+import { TSubjectFunction, TSubjectObject } from "../src/types";
 
 describe("createObservable", () => {
     it("should track get operations", () => {
@@ -76,6 +76,21 @@ describe("createObservable", () => {
         expect(observer).toHaveBeenCalledWith({
             type: "has",
             key: "name",
+        });
+    });
+
+    it("should track apply operations", () => {
+        const observer = jest.fn();
+        const subject: TSubjectFunction = (args: any) => args;
+
+        const args = ["one", "two", "three"];
+
+        const observable = createObservable(subject, observer);
+        observable(...args);
+
+        expect(observer).toHaveBeenCalledWith({
+            type: "apply",
+            args,
         });
     });
 
