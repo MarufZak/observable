@@ -4,7 +4,7 @@ import { TSubjectObject } from "../src/types";
 describe("createObservable", () => {
     it("should track get operations", () => {
         const observer = jest.fn();
-        const subject = { name: "John", age: 30 };
+        const subject: TSubjectObject = { name: "John", age: 30 };
 
         const observable = createObservable(subject, observer);
 
@@ -20,7 +20,7 @@ describe("createObservable", () => {
 
     it("should track set operations", () => {
         const observer = jest.fn();
-        const subject = { name: "John", age: 30 };
+        const subject: TSubjectObject = { name: "John", age: 30 };
 
         const observable = createObservable(subject, observer);
 
@@ -53,7 +53,7 @@ describe("createObservable", () => {
 
     it("should track ownKeys operations", () => {
         const observer = jest.fn();
-        const subject = { name: "John", age: 30 };
+        const subject: TSubjectObject = { name: "John", age: 30 };
 
         const observable = createObservable(subject, observer);
 
@@ -66,42 +66,14 @@ describe("createObservable", () => {
         });
     });
 
-    it("should handle nested objects", () => {
-        const observer = jest.fn();
-        const subject = {
-            user: {
-                name: "John",
-                address: {
-                    city: "New York",
-                },
-            },
-        };
-
-        const observable = createObservable(subject, observer);
-
-        const oldCity = observable.user.address.city;
-        observable.user.address.city = "London";
-
-        expect(oldCity).toBe("New York");
-        expect(observable.user.address.city).toBe("London");
-        expect(observer).toHaveBeenCalledWith({
-            type: "set",
-            key: "user.address.city",
-            oldValue: "New York",
-            newValue: "London",
-        });
-    });
-
-    it("should handle nested objects with multiple operations", () => {
+    it("should handle nested get operations", () => {
         const observer = jest.fn();
         const subject: TSubjectObject = {
             user: {
                 name: "John",
                 address: {
-                    city: "New York",
                     details: {
                         street: "Broadway",
-                        zip: "10001",
                     },
                 },
             },
@@ -116,6 +88,21 @@ describe("createObservable", () => {
             key: "user.address.details.street",
             value: "Broadway",
         });
+    });
+
+    it("should handle nested set operations", () => {
+        const observer = jest.fn();
+        const subject: TSubjectObject = {
+            user: {
+                address: {
+                    details: {
+                        zip: "10001",
+                    },
+                },
+            },
+        };
+
+        const observable = createObservable(subject, observer);
 
         observable.user.address.details.zip = "10002";
         expect(observer).toHaveBeenCalledWith({
@@ -124,6 +111,21 @@ describe("createObservable", () => {
             oldValue: "10001",
             newValue: "10002",
         });
+    });
+
+    it("should handle nested delete operations", () => {
+        const observer = jest.fn();
+        const subject: TSubjectObject = {
+            user: {
+                address: {
+                    details: {
+                        street: "Broadway",
+                    },
+                },
+            },
+        };
+
+        const observable = createObservable(subject, observer);
 
         delete observable.user.address.details.street;
         expect(observer).toHaveBeenLastCalledWith({
@@ -131,6 +133,21 @@ describe("createObservable", () => {
             key: "user.address.details.street",
             value: "Broadway",
         });
+    });
+
+    it("should handle nested ownKeys operations", () => {
+        const observer = jest.fn();
+        const subject: TSubjectObject = {
+            user: {
+                address: {
+                    details: {
+                        zip: "10001",
+                    },
+                },
+            },
+        };
+
+        const observable = createObservable(subject, observer);
 
         Object.keys(observable.user.address.details);
         expect(observer).toHaveBeenLastCalledWith({
