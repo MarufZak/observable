@@ -1,7 +1,8 @@
 export type TKey = string;
 export type TValue = any;
-export type TArgs = any;
+export type TArgs = readonly any[];
 export type TThisArg = any;
+export type TReceiver = unknown;
 export type TSubjectFunction = (...args: TArgs) => any;
 export type TSubjectObject = Record<string, TValue>;
 export type TSubject = TSubjectObject | TSubjectFunction;

@@ -11,6 +11,6 @@ export const createOwnKeysTrap = (observer: TObserver, path: TPath) => {
             value: keys,
         });
 
-        return keys;
+        return Reflect.ownKeys(target);
     };
 };

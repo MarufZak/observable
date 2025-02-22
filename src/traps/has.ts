@@ -8,6 +8,6 @@ export const createHasTrap = (observer: TObserver, path: TPath) => {
             key: getObjectTrace(path, key),
         });
 
-        return key in target;
+        return Reflect.has(target, key);
     };
 };

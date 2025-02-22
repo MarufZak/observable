@@ -3,14 +3,13 @@ import { getObjectTrace } from "../utils";
 
 export const createSetTrap = (observer: TObserver, path: TPath) => {
     return (target: TSubjectObject, key: TKey, value: TValue) => {
-        const oldValue = target[key];
-        target[key] = value;
         observer({
             type: "set",
             key: getObjectTrace(path, key),
-            oldValue,
+            oldValue: target[key],
             newValue: value,
         });
-        return true;
+
+        return Reflect.set(target, key, value);
     };
 };

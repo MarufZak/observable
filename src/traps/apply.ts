@@ -3,12 +3,13 @@ import {
     TArgs,
     TObserver,
     TPath,
-    TSubjectObject,
+    TSubject,
+    TSubjectFunction,
     TThisArg,
 } from "../types";
 
 export const createApplyTrap = (observer: TObserver, path: TPath) => {
-    return (target: TSubjectObject, thisArg: TThisArg, args: TArgs) => {
+    return (target: TSubject, thisArg: TThisArg, args: TArgs) => {
         const observerArg: TApplyObserver = { type: "apply", args };
 
         if (path) {
@@ -17,6 +18,6 @@ export const createApplyTrap = (observer: TObserver, path: TPath) => {
 
         observer(observerArg);
 
-        return target.apply(thisArg, args);
+        return Reflect.apply(target as TSubjectFunction, thisArg, args);
     };
 };
