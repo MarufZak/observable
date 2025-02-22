@@ -205,4 +205,29 @@ describe("createObservable", () => {
             key: "user.address.details.zip",
         });
     });
+
+    it("should handle nested apply operations", () => {
+        const observer = jest.fn();
+        const subject: TSubjectObject = {
+            user: {
+                address: {
+                    details: {
+                        isAvailable: (cond1: boolean, cond2: boolean) =>
+                            cond1 && cond2,
+                    },
+                },
+            },
+        };
+
+        const args = [true, true];
+
+        const observable = createObservable(subject, observer);
+        observable.user.address.details.isAvailable(...args);
+
+        expect(observer).toHaveBeenCalledWith({
+            type: "apply",
+            key: "user.address.details.isAvailable",
+            args,
+        });
+    });
 });
