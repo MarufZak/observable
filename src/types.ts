@@ -11,6 +11,11 @@ export type TGetObserver = {
     value: string;
 };
 
+export type THasObserver = {
+    type: "has";
+    key: string;
+};
+
 export type TOwnKeysObserver = {
     type: "ownKeys";
     key: string | null;
@@ -31,5 +36,10 @@ export type TDeleteObserver = {
 };
 
 export type TObserver = (
-    args: TGetObserver | TSetObserver | TDeleteObserver | TOwnKeysObserver
+    args:
+        | TGetObserver
+        | TSetObserver
+        | TDeleteObserver
+        | TOwnKeysObserver
+        | THasObserver
 ) => void;
