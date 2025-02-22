@@ -2,7 +2,7 @@ import { createObservable } from "../src/index";
 import { TSubjectObject } from "../src/types";
 
 describe("createObservable", () => {
-    it("should create an observable object that tracks get operations", () => {
+    it("should track get operations", () => {
         const observer = jest.fn();
         const subject = { name: "John", age: 30 };
 
@@ -51,6 +51,21 @@ describe("createObservable", () => {
         });
     });
 
+    it("should track ownKeys operations", () => {
+        const observer = jest.fn();
+        const subject = { name: "John", age: 30 };
+
+        const observable = createObservable(subject, observer);
+
+        Object.keys(observable);
+
+        expect(observer).toHaveBeenCalledWith({
+            type: "ownKeys",
+            key: null,
+            value: ["name", "age"],
+        });
+    });
+
     it("should handle nested objects", () => {
         const observer = jest.fn();
         const subject = {
@@ -74,21 +89,6 @@ describe("createObservable", () => {
             key: "user.address.city",
             oldValue: "New York",
             newValue: "London",
-        });
-    });
-
-    it("should track ownKeys operations", () => {
-        const observer = jest.fn();
-        const subject = { name: "John", age: 30 };
-
-        const observable = createObservable(subject, observer);
-
-        Object.keys(observable);
-
-        expect(observer).toHaveBeenCalledWith({
-            type: "ownKeys",
-            key: null,
-            value: ["name", "age"],
         });
     });
 
