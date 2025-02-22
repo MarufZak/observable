@@ -39,7 +39,7 @@ export type TDeleteObserver = {
 
 export type TApplyObserver = {
     type: "apply";
-    key: string;
+    key?: string;
     args: any;
 };
 

@@ -1,12 +1,21 @@
-import { TArgs, TObserver, TPath, TSubjectObject, TThisArg } from "../types";
+import {
+    TApplyObserver,
+    TArgs,
+    TObserver,
+    TPath,
+    TSubjectObject,
+    TThisArg,
+} from "../types";
 
 export const createApplyTrap = (observer: TObserver, path: TPath) => {
     return (target: TSubjectObject, thisArg: TThisArg, args: TArgs) => {
-        observer({
-            type: "apply",
-            key: path,
-            args,
-        });
+        const observerArg: TApplyObserver = { type: "apply", args };
+
+        if (path) {
+            observerArg.key = path;
+        }
+
+        observer(observerArg);
 
         return target.apply(thisArg, args);
     };
