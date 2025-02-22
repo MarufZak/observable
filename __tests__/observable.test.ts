@@ -169,4 +169,25 @@ describe("createObservable", () => {
             value: ["zip"],
         });
     });
+
+    it("should handle nested has operations", () => {
+        const observer = jest.fn();
+        const subject: TSubjectObject = {
+            user: {
+                address: {
+                    details: {
+                        zip: "10001",
+                    },
+                },
+            },
+        };
+
+        const observable = createObservable(subject, observer);
+        "zip" in observable.user.address.details;
+
+        expect(observer).toHaveBeenNthCalledWith(4, {
+            type: "has",
+            key: "user.address.details.zip",
+        });
+    });
 });
