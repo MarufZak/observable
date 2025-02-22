@@ -66,6 +66,19 @@ describe("createObservable", () => {
         });
     });
 
+    it("should track has operations", () => {
+        const observer = jest.fn();
+        const subject: TSubjectObject = { name: "John", age: 30 };
+
+        const observable = createObservable(subject, observer);
+        "name" in observable;
+
+        expect(observer).toHaveBeenCalledWith({
+            type: "has",
+            key: "name",
+        });
+    });
+
     it("should handle nested get operations", () => {
         const observer = jest.fn();
         const subject: TSubjectObject = {
