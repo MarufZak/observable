@@ -95,6 +95,29 @@ describe("createObservable", () => {
         });
     });
 
+    it("should track construct operations", () => {
+        class Example {
+            name = "";
+
+            constructor(name: string) {
+                this.name = name;
+            }
+        }
+
+        const observer = jest.fn();
+
+        const ProxiedExample = createObservable(Example, observer);
+        const result = new ProxiedExample("myname");
+
+        expect(result).toEqual({
+            name: "myname",
+        });
+        expect(observer).toHaveBeenCalledWith({
+            type: "construct",
+            args: ["myname"],
+        });
+    });
+
     it("should handle nested get operations", () => {
         const observer = jest.fn();
         const subject: TSubjectObject = {
