@@ -44,6 +44,11 @@ export type TApplyObserver = {
     args: any;
 };
 
+export type TGetPrototypeOfObserver = {
+    type: "getPrototypeOf";
+    key?: string;
+};
+
 export type TObserver = (
     args:
         | TGetObserver
@@ -52,4 +57,5 @@ export type TObserver = (
         | TOwnKeysObserver
         | THasObserver
         | TApplyObserver
+        | TGetPrototypeOfObserver
 ) => void;
