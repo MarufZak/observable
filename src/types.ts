@@ -22,7 +22,7 @@ export type THasObserver = {
 export type TOwnKeysObserver = {
     type: "ownKeys";
     key: string | null;
-    value: string[];
+    value: Array<string | symbol>;
 };
 
 export type TSetObserver = {

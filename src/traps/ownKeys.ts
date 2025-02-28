@@ -3,7 +3,7 @@ import { getObjectTrace } from "../utils";
 
 export const createOwnKeysTrap = (observer: TObserver, path: TPath) => {
     return (target: TSubjectObject) => {
-        const keys = Object.keys(target);
+        const keys = Reflect.ownKeys(target);
 
         observer({
             type: "ownKeys",
@@ -11,6 +11,6 @@ export const createOwnKeysTrap = (observer: TObserver, path: TPath) => {
             value: keys,
         });
 
-        return Reflect.ownKeys(target);
+        return keys
     };
 };
