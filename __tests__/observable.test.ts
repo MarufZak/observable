@@ -249,4 +249,20 @@ describe("createObservable", () => {
             args,
         });
     });
+
+    it("should handle nested getPrototypeOf operations", () => {
+        const observer = jest.fn();
+        class Example {}
+        const subject = {
+            falseSubject: { trueSubject: Object.create(Example) },
+        };
+        const observable = createObservable(subject, observer);
+
+        const proto = Object.getPrototypeOf(observable.falseSubject.trueSubject);
+        expect(proto).toBe(Example);
+        expect(observer).toHaveBeenNthCalledWith(3, {
+            type: "getPrototypeOf",
+            key: "falseSubject.trueSubject",
+        });
+    });
 });
