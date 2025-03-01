@@ -219,7 +219,7 @@ describe("createObservable", () => {
         });
     });
 
-    describe("Nested object operations", () => {
+    describe("Basic nested object operations", () => {
         function createNestedTestSubject(): TSubjectObject {
             return {
                 user: {
@@ -317,6 +317,32 @@ describe("createObservable", () => {
                 type: "apply",
                 key: "user.address.details.isAvailable",
                 args,
+            });
+        });
+
+        it("should handle nested getOwnPropertyDescriptor operations", () => {
+            const subject: TSubjectObject = {
+                nested: {
+                    property: "test value",
+                },
+            };
+            const { observable, observer } = createTestObservable(subject);
+
+            const descriptor = Object.getOwnPropertyDescriptor(
+                observable.nested,
+                "property"
+            );
+
+            expect(descriptor).toEqual({
+                value: "test value",
+                writable: true,
+                enumerable: true,
+                configurable: true,
+            });
+            expect(observer).toHaveBeenCalledWith({
+                type: "getOwnPropertyDescriptor",
+                key: "nested",
+                requestedKey: "property",
             });
         });
     });
