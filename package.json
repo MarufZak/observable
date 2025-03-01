@@ -1,5 +1,5 @@
 {
-    "name": "observable",
+    "name": "@marufzak/observable",
     "version": "1.0.0",
     "main": "dist/index.js",
     "type": "module",
@@ -35,6 +35,10 @@
     "exports": {
         "import": {
             "default": "./dist/index.js",
+            "types": "./dist/types.d.ts"
+        },
+        "require": {
+            "default": "./dist/index.cjs",
             "types": "./dist/types.d.ts"
         }
     },
