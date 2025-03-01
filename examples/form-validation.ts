@@ -1,4 +1,5 @@
 import { createObservable } from "../src";
+import { TObserver } from "../src/types";
 
 interface FormState {
     username: string;
@@ -41,8 +42,10 @@ function validatePassword(password: string): string | undefined {
     return undefined;
 }
 
+type Event = Parameters<TObserver>[0];
+
 // observer that performs validation
-function formObserver(event: any) {
+function formObserver(event: Event) {
     if (event.type === "set") {
         const path = event.path;
         const newValue = event.newValue;
