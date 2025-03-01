@@ -7,6 +7,7 @@ import { createHasTrap } from "./has";
 import { createApplyTrap } from "./apply";
 import { createGetPrototypeOfTrap } from "./getPrototypeOf";
 import { createSetPrototypeOfTrap } from "./setPrototypeOf";
+import { createIsExtensibleTrap } from "./isExtensible";
 
 export const getTraps = (observer: TObserver, path: TPath) => {
     const get = createGetTrap(observer, path);
@@ -17,6 +18,7 @@ export const getTraps = (observer: TObserver, path: TPath) => {
     const apply = createApplyTrap(observer, path);
     const getPrototypeOf = createGetPrototypeOfTrap(observer, path);
     const setPrototypeOf = createSetPrototypeOfTrap(observer, path);
+    const isExtensible = createIsExtensibleTrap(observer, path);
 
     return {
         get,
@@ -27,5 +29,6 @@ export const getTraps = (observer: TObserver, path: TPath) => {
         apply,
         getPrototypeOf,
         setPrototypeOf,
+        isExtensible,
     };
 };
