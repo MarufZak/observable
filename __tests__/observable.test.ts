@@ -108,6 +108,20 @@ describe("createObservable", () => {
         });
     });
 
+    it("should track getPrototypeOf operations", () => {
+        const observer = jest.fn();
+        class Proto {}
+        const subject = {};
+        const observable = createObservable(subject, observer);
+
+        const proto = Object.setPrototypeOf(observable, Proto);
+        expect(proto).toBe(observable);
+        expect(observer).toHaveBeenCalledWith({
+            type: "setPrototypeOf",
+            proto: Proto,
+        });
+    });
+
     it("should handle nested get operations", () => {
         const observer = jest.fn();
         const subject: TSubjectObject = {
