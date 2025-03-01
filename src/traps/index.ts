@@ -10,6 +10,7 @@ import { createGetPrototypeOfTrap } from "./getPrototypeOf";
 import { createSetPrototypeOfTrap } from "./setPrototypeOf";
 import { createIsExtensibleTrap } from "./isExtensible";
 import { createPreventExtensionsTrap } from "./preventExtensions";
+import { createDefinePropertyTrap } from "./defineProperty";
 
 export const getTraps = (observer: TObserver, path: TPath) => {
     const get = createGetTrap(observer, path);
@@ -23,6 +24,7 @@ export const getTraps = (observer: TObserver, path: TPath) => {
     const setPrototypeOf = createSetPrototypeOfTrap(observer, path);
     const isExtensible = createIsExtensibleTrap(observer, path);
     const preventExtensions = createPreventExtensionsTrap(observer, path);
+    const defineProperty = createDefinePropertyTrap(observer, path);
 
     return {
         get,
@@ -36,5 +38,6 @@ export const getTraps = (observer: TObserver, path: TPath) => {
         setPrototypeOf,
         isExtensible,
         preventExtensions,
+        defineProperty,
     };
 };
