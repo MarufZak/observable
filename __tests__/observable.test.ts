@@ -95,6 +95,24 @@ describe("createObservable", () => {
                 args: ["ok"],
             });
         });
+
+        it("should track getOwnPropertyDescriptor operations", () => {
+            const { observable, observer } = createTestObservable({
+                name: "John",
+            });
+
+            const result = Object.getOwnPropertyDescriptor(observable, "name");
+            expect(observer).toHaveBeenCalledWith({
+                type: "getOwnPropertyDescriptor",
+                requestedKey: "name",
+            });
+            expect(result).toEqual({
+                value: "John",
+                writable: true,
+                enumerable: true,
+                configurable: true,
+            });
+        });
     });
 
     describe("Prototype and extension operations", () => {

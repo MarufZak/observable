@@ -83,7 +83,7 @@ export type TDefinePropertyObserver = {
 };
 
 export type TGetOwnPropertyDescriptorObserver = {
-    type: "defineProperty";
+    type: "getOwnPropertyDescriptor";
     requestedKey: TProxyKey;
     key?: string;
 };

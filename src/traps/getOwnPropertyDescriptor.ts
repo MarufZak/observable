@@ -13,7 +13,7 @@ export const createGetOwnPropertyDescriptorTrap = (
     return (target: TSubject, key: TProxyKey) => {
         const observerArg: TGetOwnPropertyDescriptorObserver = {
             requestedKey: key,
-            type: "defineProperty",
+            type: "getOwnPropertyDescriptor",
         };
 
         if (path) {
