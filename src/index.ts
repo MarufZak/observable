@@ -2,24 +2,29 @@ import { getTraps } from "./traps";
 import type { TObserver, TPath, TSubject } from "./types";
 import { getObjectTrace, isObjectSubject, isPrimitiveType } from "./utils";
 
+export type ObservableOptions = {
+    _path?: TPath;
+    isRecursive?: boolean;
+};
+
 export function createObservable<TObservableSubject extends TSubject>(
     subject: TObservableSubject,
     observer: TObserver,
-    path: TPath = ""
+    options?: ObservableOptions
 ) {
-    const traps = getTraps(observer, path);
+    const _path = options?._path || "";
+    const traps = getTraps(observer, _path || "");
 
-    if (isObjectSubject(subject)) {
+    if (isObjectSubject(subject) && options?.isRecursive) {
         for (const key in subject) {
             if (isPrimitiveType(subject[key])) {
                 continue;
             }
 
-            subject[key] = createObservable(
-                subject[key],
-                observer,
-                getObjectTrace(path, key)
-            );
+            subject[key] = createObservable(subject[key], observer, {
+                _path: getObjectTrace(_path || "", key),
+                isRecursive: options?.isRecursive,
+            });
         }
     }
 

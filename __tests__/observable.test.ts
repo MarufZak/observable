@@ -3,7 +3,7 @@ import { TSubjectFunction, TSubjectObject } from "../src/types";
 
 function createTestObservable(subject: TSubjectObject = { name: "John", age: 30 }) {
     const observer = jest.fn();
-    const observable = createObservable(subject, observer);
+    const observable = createObservable(subject, observer, { isRecursive: true });
     return { subject, observable, observer };
 }
 
