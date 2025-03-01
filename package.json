@@ -3,10 +3,11 @@
     "description": "A lightweight reactive programming library for JavaScript and TypeScript",
     "version": "1.0.0",
     "main": "dist/index.js",
+    "types": "dist/index.d.ts",
     "type": "module",
     "scripts": {
         "dev": "tsx watch src",
-        "build": "pkgroll --minify --clean-dist",
+        "build": "pkgroll --minify --clean-dist && tsc --emitDeclarationOnly",
         "typecheck": "tsc --noEmit",
         "format:check": "prettier . --check",
         "format:write": "prettier . --write",
@@ -38,12 +39,10 @@
     },
     "exports": {
         "import": {
-            "default": "./dist/index.js",
-            "types": "./dist/types.d.ts"
+            "default": "./dist/index.js"
         },
         "require": {
-            "default": "./dist/index.cjs",
-            "types": "./dist/types.d.ts"
+            "default": "./dist/index.cjs"
         }
     },
     "packageManager": "npm@10.8.1+sha512.0e9d42e92bd2318408ed81eaff2da5f78baf23ee7d12a6eed44a6e2901d0f29d7ab715d1b918ade601f72e769a824d9a5c322383f22bbbda5dd396e79de2a077"

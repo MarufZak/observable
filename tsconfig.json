@@ -11,7 +11,8 @@
         "module": "ESNext",
         "moduleResolution": "bundler",
         "declaration": true,
-        "lib": ["es2022", "DOM"]
+        "lib": ["es2022", "DOM"],
+        "declarationDir": "./dist"
     },
-    "exclude": ["./dist"]
+    "include": ["src/**/*"]
 }

@@ -1,11 +1,8 @@
 import { getTraps } from "./traps";
-import type { TObserver, TPath, TSubject } from "./types";
+import type { ObservableOptions, TObserver, TSubject } from "./types";
 import { getObjectTrace, isObjectSubject, isPrimitiveType } from "./utils";
 
-export type ObservableOptions = {
-    _path?: TPath;
-    isRecursive?: boolean;
-};
+export * from "./types";
 
 export function createObservable<TObservableSubject extends TSubject>(
     subject: TObservableSubject,

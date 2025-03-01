@@ -13,6 +13,11 @@ export type TProto = object | null;
 export type TAttributes = PropertyDescriptor & ThisType<any>;
 export type TProxyKey = PropertyKey;
 
+export type ObservableOptions = {
+    _path?: TPath;
+    isRecursive?: boolean;
+};
+
 export type TGetObserver = {
     type: "get";
     path: TPath;
