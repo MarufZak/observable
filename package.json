@@ -1,5 +1,6 @@
 {
     "name": "@marufzak/observable",
+    "description": "A lightweight reactive programming library for JavaScript and TypeScript",
     "version": "1.0.0",
     "main": "dist/index.js",
     "type": "module",
@@ -14,10 +15,13 @@
         "prepare": "husky",
         "test": "jest"
     },
-    "keywords": [],
+    "keywords": [
+        "observable",
+        "proxy",
+        "reactivity"
+    ],
     "author": "Ma'ruf Zakirov",
     "license": "MIT",
-    "description": "A lightweight reactive programming library for JavaScript and TypeScript",
     "devDependencies": {
         "@types/node": "^22.13.1",
         "husky": "^9.1.7",
