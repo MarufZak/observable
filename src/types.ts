@@ -64,7 +64,7 @@ export type TIsExtensibleObserver = {
 };
 
 export type TPreventExtensionsObserver = {
-    type: "isExtensible";
+    type: "preventExtensions";
     key?: string;
 };
 

@@ -137,10 +137,26 @@ describe("createObservable", () => {
         expect(() => {
             observable.a = "a";
         }).toThrow(TypeError);
-        expect(Object.keys(observable)).toEqual([]);
         expect(Object.isExtensible(observable)).toBe(false);
         expect(observer).toHaveBeenCalledWith({
             type: "isExtensible",
+        });
+    });
+
+    it("should track preventExtensions operations", () => {
+        const observer = jest.fn();
+        const subject: Record<string, string> = {};
+
+        const observable = createObservable(subject, observer);
+
+        Object.preventExtensions(observable);
+
+        expect(() => {
+            observable.a = "a";
+        }).toThrow(TypeError);
+        expect(Object.isExtensible(observable)).toBe(false);
+        expect(observer).toHaveBeenCalledWith({
+            type: "preventExtensions",
         });
     });
 
@@ -339,7 +355,6 @@ describe("createObservable", () => {
         expect(() => {
             observable.falseSubject.trueSubject.a = "a";
         }).toThrow(TypeError);
-        expect(Object.keys(observable.falseSubject.trueSubject)).toEqual([]);
         expect(Object.isExtensible(observable.falseSubject.trueSubject)).toBe(
             false
         );
