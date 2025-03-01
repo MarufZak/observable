@@ -433,4 +433,34 @@ describe("createObservable", () => {
             key: "falseSubject.trueSubject",
         });
     });
+
+    it("should handle nested defineProperty operations", () => {
+        const observer = jest.fn();
+        const subject: TSubjectObject = {
+            nested: {},
+        };
+        const observable = createObservable(subject, observer);
+
+        const descriptor: PropertyDescriptor = {
+            value: "nested value",
+            writable: true,
+            enumerable: true,
+            configurable: true,
+        };
+
+        const result = Object.defineProperty(
+            observable.nested,
+            "nestedProp",
+            descriptor
+        );
+
+        expect(result).toBe(subject.nested);
+        expect(subject.nested.nestedProp).toBe("nested value");
+        expect(observer).toHaveBeenCalledWith({
+            type: "defineProperty",
+            key: "nested",
+            definedKey: "nestedProp",
+            attributes: descriptor,
+        });
+    });
 });
