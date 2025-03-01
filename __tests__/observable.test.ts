@@ -345,9 +345,10 @@ describe("createObservable", () => {
         };
 
         const observable = createObservable(subject, observer);
-        expect(Object.isExtensible(observable)).toBe(true);
+        expect(Object.isExtensible(observable.falseSubject.trueSubject)).toBe(true);
         expect(observer).toHaveBeenCalledWith({
             type: "isExtensible",
+            key: "falseSubject.trueSubject",
         });
 
         Object.preventExtensions(observable.falseSubject.trueSubject);
@@ -360,6 +361,29 @@ describe("createObservable", () => {
         );
         expect(observer).toHaveBeenCalledWith({
             type: "isExtensible",
+            key: "falseSubject.trueSubject",
+        });
+    });
+
+    it("should handle nested preventExtensions operations", () => {
+        const observer = jest.fn();
+        const subject: any = {
+            falseSubject: { trueSubject: {} },
+        };
+
+        const observable = createObservable(subject, observer);
+
+        Object.preventExtensions(observable.falseSubject.trueSubject);
+
+        expect(() => {
+            observable.falseSubject.trueSubject.a = "a";
+        }).toThrow(TypeError);
+        expect(Object.isExtensible(observable.falseSubject.trueSubject)).toBe(
+            false
+        );
+        expect(Object.isExtensible(observable.falseSubject)).toBe(true);
+        expect(observer).toHaveBeenCalledWith({
+            type: "preventExtensions",
             key: "falseSubject.trueSubject",
         });
     });
