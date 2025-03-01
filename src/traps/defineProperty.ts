@@ -1,6 +1,6 @@
 import {
     TAttributes,
-    TDefinedKey,
+    TProxyKey,
     TDefinePropertyObserver,
     TObserver,
     TPath,
@@ -8,7 +8,7 @@ import {
 } from "../types";
 
 export const createDefinePropertyTrap = (observer: TObserver, path: TPath) => {
-    return (target: TSubject, definedKey: TDefinedKey, attributes: TAttributes) => {
+    return (target: TSubject, definedKey: TProxyKey, attributes: TAttributes) => {
         const observerArg: TDefinePropertyObserver = {
             attributes,
             type: "defineProperty",

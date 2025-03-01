@@ -11,7 +11,7 @@ export type TPath = string;
 // we want to be consistent with native types.
 export type TProto = object | null;
 export type TAttributes = PropertyDescriptor & ThisType<any>;
-export type TDefinedKey = PropertyKey;
+export type TProxyKey = PropertyKey;
 
 export type TGetObserver = {
     type: "get";
@@ -78,7 +78,13 @@ export type TPreventExtensionsObserver = {
 export type TDefinePropertyObserver = {
     type: "defineProperty";
     attributes: TAttributes;
-    definedKey: TDefinedKey;
+    definedKey: TProxyKey;
+    key?: string;
+};
+
+export type TGetOwnPropertyDescriptorObserver = {
+    type: "defineProperty";
+    requestedKey: TProxyKey;
     key?: string;
 };
 
@@ -96,4 +102,5 @@ export type TObserver = (
         | TIsExtensibleObserver
         | TPreventExtensionsObserver
         | TDefinePropertyObserver
+        | TGetOwnPropertyDescriptorObserver
 ) => void;

@@ -268,7 +268,7 @@ describe("createObservable", () => {
             const keys = Object.keys(observable.user.address.details);
 
             expect(keys).toEqual(["street", "zip", "isAvailable"]);
-            expect(observer).toHaveBeenLastCalledWith({
+            expect(observer).toHaveBeenNthCalledWith(4, {
                 type: "ownKeys",
                 key: "user.address.details",
                 value: ["street", "zip", "isAvailable"],
