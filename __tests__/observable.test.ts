@@ -108,14 +108,14 @@ describe("createObservable", () => {
         });
     });
 
-    it("should track getPrototypeOf operations", () => {
+    it("should track setPrototypeOf operations", () => {
         const observer = jest.fn();
         class Proto {}
         const subject = {};
         const observable = createObservable(subject, observer);
 
-        const proto = Object.setPrototypeOf(observable, Proto);
-        expect(proto).toBe(observable);
+        const result = Object.setPrototypeOf(observable, Proto);
+        expect(result).toBe(observable);
         expect(observer).toHaveBeenCalledWith({
             type: "setPrototypeOf",
             proto: Proto,
@@ -277,6 +277,26 @@ describe("createObservable", () => {
         expect(observer).toHaveBeenNthCalledWith(3, {
             type: "getPrototypeOf",
             key: "falseSubject.trueSubject",
+        });
+    });
+
+    it("should handle nested setPrototypeOf operations", () => {
+        const observer = jest.fn();
+        class Proto {}
+        const subject = {
+            falseSubject: { trueSubject: {} },
+        };
+        const observable = createObservable(subject, observer);
+
+        const result = Object.setPrototypeOf(
+            observable.falseSubject.trueSubject,
+            Proto
+        );
+        expect(result).toBe(subject.falseSubject.trueSubject);
+        expect(observer).toHaveBeenCalledWith({
+            type: "setPrototypeOf",
+            key: "falseSubject.trueSubject",
+            proto: Proto,
         });
     });
 });
