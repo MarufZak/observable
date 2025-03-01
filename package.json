@@ -15,9 +15,9 @@
         "test": "jest"
     },
     "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "description": "",
+    "author": "Ma'ruf Zakirov",
+    "license": "MIT",
+    "description": "A lightweight reactive programming library for JavaScript and TypeScript",
     "devDependencies": {
         "@types/node": "^22.13.1",
         "husky": "^9.1.7",
