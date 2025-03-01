@@ -132,7 +132,7 @@ describe("createObservable", () => {
             type: "isExtensible",
         });
 
-        Object.preventExtensions(subject);
+        Object.preventExtensions(observable);
 
         expect(() => {
             observable.a = "a";
@@ -319,6 +319,33 @@ describe("createObservable", () => {
             type: "setPrototypeOf",
             key: "falseSubject.trueSubject",
             proto: Proto,
+        });
+    });
+
+    it("should handle nested isExtensible operations", () => {
+        const observer = jest.fn();
+        const subject: any = {
+            falseSubject: { trueSubject: {} },
+        };
+
+        const observable = createObservable(subject, observer);
+        expect(Object.isExtensible(observable)).toBe(true);
+        expect(observer).toHaveBeenCalledWith({
+            type: "isExtensible",
+        });
+
+        Object.preventExtensions(observable.falseSubject.trueSubject);
+
+        expect(() => {
+            observable.falseSubject.trueSubject.a = "a";
+        }).toThrow(TypeError);
+        expect(Object.keys(observable.falseSubject.trueSubject)).toEqual([]);
+        expect(Object.isExtensible(observable.falseSubject.trueSubject)).toBe(
+            false
+        );
+        expect(observer).toHaveBeenCalledWith({
+            type: "isExtensible",
+            key: "falseSubject.trueSubject",
         });
     });
 });
