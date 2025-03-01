@@ -122,6 +122,28 @@ describe("createObservable", () => {
         });
     });
 
+    it("should track isExtensible operations", () => {
+        const observer = jest.fn();
+        const subject: Record<string, string> = {};
+
+        const observable = createObservable(subject, observer);
+        expect(Object.isExtensible(observable)).toBe(true);
+        expect(observer).toHaveBeenCalledWith({
+            type: "isExtensible",
+        });
+
+        Object.preventExtensions(subject);
+
+        expect(() => {
+            observable.a = "a";
+        }).toThrow(TypeError);
+        expect(Object.keys(observable)).toEqual([]);
+        expect(Object.isExtensible(observable)).toBe(false);
+        expect(observer).toHaveBeenCalledWith({
+            type: "isExtensible",
+        });
+    });
+
     it("should handle nested get operations", () => {
         const observer = jest.fn();
         const subject: TSubjectObject = {
