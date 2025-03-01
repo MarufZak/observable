@@ -7,6 +7,9 @@ export type TSubjectFunction = (...args: TArgs) => any;
 export type TSubjectObject = Record<string, TValue>;
 export type TSubject = TSubjectObject | TSubjectFunction;
 export type TPath = string;
+// although object type can be confusing.
+// we want to be consistent with native types.
+export type TProto = object | null;
 
 export type TGetObserver = {
     type: "get";
@@ -49,6 +52,12 @@ export type TGetPrototypeOfObserver = {
     key?: string;
 };
 
+export type TSetPrototypeOfObserver = {
+    type: "setPrototypeOf";
+    proto: TProto;
+    key?: string;
+};
+
 export type TObserver = (
     args:
         | TGetObserver
@@ -58,4 +67,5 @@ export type TObserver = (
         | THasObserver
         | TApplyObserver
         | TGetPrototypeOfObserver
+        | TSetPrototypeOfObserver
 ) => void;
