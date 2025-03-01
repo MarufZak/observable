@@ -160,6 +160,29 @@ describe("createObservable", () => {
         });
     });
 
+    it("should track defineProperty operations", () => {
+        const observer = jest.fn();
+        const subject: TSubjectObject = {};
+        const observable = createObservable(subject, observer);
+
+        const descriptor: PropertyDescriptor = {
+            value: "test value",
+            writable: true,
+            enumerable: true,
+            configurable: true,
+        };
+
+        const result = Object.defineProperty(observable, "newProp", descriptor);
+
+        expect(result).toBe(observable);
+        expect(subject.newProp).toBe("test value");
+        expect(observer).toHaveBeenCalledWith({
+            type: "defineProperty",
+            definedKey: "newProp",
+            attributes: descriptor,
+        });
+    });
+
     it("should track construct operations", () => {
         class Example {
             name = "";
