@@ -5,7 +5,7 @@ export const createHasTrap = (observer: TObserver, path: TPath) => {
     return (target: TSubjectObject, key: TKey) => {
         observer({
             type: "has",
-            key: getObjectTrace(path, key),
+            path: getObjectTrace(path, key),
         });
 
         return Reflect.has(target, key);

@@ -5,7 +5,7 @@ export const createSetTrap = (observer: TObserver, path: TPath) => {
     return (target: TSubjectObject, key: TKey, value: TValue) => {
         observer({
             type: "set",
-            key: getObjectTrace(path, key),
+            path: getObjectTrace(path, key),
             oldValue: target[key],
             newValue: value,
         });

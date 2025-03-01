@@ -25,7 +25,7 @@ describe("createObservable", () => {
             expect(name).toBe("John");
             expect(observer).toHaveBeenCalledWith({
                 type: "get",
-                key: "name",
+                path: "name",
                 value: "John",
             });
         });
@@ -38,7 +38,7 @@ describe("createObservable", () => {
             expect(observable.name).toBe("Jane");
             expect(observer).toHaveBeenCalledWith({
                 type: "set",
-                key: "name",
+                path: "name",
                 oldValue: "John",
                 newValue: "Jane",
             });
@@ -52,7 +52,7 @@ describe("createObservable", () => {
             expect("name" in observable).toBe(false);
             expect(observer).toHaveBeenCalledWith({
                 type: "delete",
-                key: "name",
+                path: "name",
                 value: "John",
             });
         });
@@ -65,7 +65,6 @@ describe("createObservable", () => {
             expect(keys).toMatchObject(["name", "age"]);
             expect(observer).toHaveBeenCalledWith({
                 type: "ownKeys",
-                key: null,
                 value: ["name", "age"],
             });
         });
@@ -78,7 +77,7 @@ describe("createObservable", () => {
             expect(result).toBe(true);
             expect(observer).toHaveBeenCalledWith({
                 type: "has",
-                key: "name",
+                path: "name",
             });
         });
 
@@ -245,7 +244,7 @@ describe("createObservable", () => {
             expect(street).toBe("Broadway");
             expect(observer).toHaveBeenLastCalledWith({
                 type: "get",
-                key: "user.address.details.street",
+                path: "user.address.details.street",
                 value: "Broadway",
             });
         });
@@ -259,7 +258,7 @@ describe("createObservable", () => {
             expect(nestedSubject.user.address.details.zip).toBe("10002");
             expect(observer).toHaveBeenCalledWith({
                 type: "set",
-                key: "user.address.details.zip",
+                path: "user.address.details.zip",
                 oldValue: "10001",
                 newValue: "10002",
             });
@@ -273,7 +272,7 @@ describe("createObservable", () => {
 
             expect(observer).toHaveBeenLastCalledWith({
                 type: "delete",
-                key: "user.address.details.street",
+                path: "user.address.details.street",
                 value: "Broadway",
             });
             expect(nestedSubject.user.address.details.street).not.toBeDefined();
@@ -288,7 +287,7 @@ describe("createObservable", () => {
             expect(keys).toEqual(["street", "zip", "isAvailable"]);
             expect(observer).toHaveBeenNthCalledWith(4, {
                 type: "ownKeys",
-                key: "user.address.details",
+                path: "user.address.details",
                 value: ["street", "zip", "isAvailable"],
             });
         });
@@ -302,7 +301,7 @@ describe("createObservable", () => {
             expect(result).toBe(true);
             expect(observer).toHaveBeenNthCalledWith(4, {
                 type: "has",
-                key: "user.address.details.zip",
+                path: "user.address.details.zip",
             });
         });
 
@@ -315,7 +314,7 @@ describe("createObservable", () => {
 
             expect(observer).toHaveBeenCalledWith({
                 type: "apply",
-                key: "user.address.details.isAvailable",
+                path: "user.address.details.isAvailable",
                 args,
             });
         });
@@ -341,7 +340,7 @@ describe("createObservable", () => {
             });
             expect(observer).toHaveBeenCalledWith({
                 type: "getOwnPropertyDescriptor",
-                key: "nested",
+                path: "nested",
                 requestedKey: "property",
             });
         });
@@ -362,7 +361,7 @@ describe("createObservable", () => {
             expect(proto).toBe(Example);
             expect(observer).toHaveBeenNthCalledWith(3, {
                 type: "getPrototypeOf",
-                key: "falseSubject.trueSubject",
+                path: "falseSubject.trueSubject",
             });
         });
 
@@ -381,7 +380,7 @@ describe("createObservable", () => {
             expect(result).toBe(subject.falseSubject.trueSubject);
             expect(observer).toHaveBeenCalledWith({
                 type: "setPrototypeOf",
-                key: "falseSubject.trueSubject",
+                path: "falseSubject.trueSubject",
                 proto: Proto,
             });
         });
@@ -397,7 +396,7 @@ describe("createObservable", () => {
             );
             expect(observer).toHaveBeenCalledWith({
                 type: "isExtensible",
-                key: "falseSubject.trueSubject",
+                path: "falseSubject.trueSubject",
             });
 
             Object.preventExtensions(observable.falseSubject.trueSubject);
@@ -410,7 +409,7 @@ describe("createObservable", () => {
             );
             expect(observer).toHaveBeenCalledWith({
                 type: "isExtensible",
-                key: "falseSubject.trueSubject",
+                path: "falseSubject.trueSubject",
             });
         });
 
@@ -431,7 +430,7 @@ describe("createObservable", () => {
             expect(Object.isExtensible(observable.falseSubject)).toBe(true);
             expect(observer).toHaveBeenCalledWith({
                 type: "preventExtensions",
-                key: "falseSubject.trueSubject",
+                path: "falseSubject.trueSubject",
             });
         });
 
@@ -458,7 +457,7 @@ describe("createObservable", () => {
             expect(subject.nested.nestedProp).toBe("nested value");
             expect(observer).toHaveBeenCalledWith({
                 type: "defineProperty",
-                key: "nested",
+                path: "nested",
                 definedKey: "nestedProp",
                 attributes: descriptor,
             });

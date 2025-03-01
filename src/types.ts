@@ -15,37 +15,37 @@ export type TProxyKey = PropertyKey;
 
 export type TGetObserver = {
     type: "get";
-    key: string;
+    path: TPath;
     value: string;
 };
 
 export type THasObserver = {
     type: "has";
-    key: string;
+    path: TPath;
 };
 
 export type TOwnKeysObserver = {
     type: "ownKeys";
-    key: string | null;
+    path?: TPath;
     value: Array<string | symbol>;
 };
 
 export type TSetObserver = {
     type: "set";
-    key: string;
+    path: TPath;
     oldValue: string;
     newValue: string;
 };
 
 export type TDeleteObserver = {
     type: "delete";
-    key: string;
+    path: TPath;
     value: string;
 };
 
 export type TApplyObserver = {
     type: "apply";
-    key?: string;
+    path?: TPath;
     args: TArgs;
 };
 
@@ -56,36 +56,36 @@ export type TConstructObserver = {
 
 export type TGetPrototypeOfObserver = {
     type: "getPrototypeOf";
-    key?: string;
+    path?: TPath;
 };
 
 export type TSetPrototypeOfObserver = {
     type: "setPrototypeOf";
     proto: TProto;
-    key?: string;
+    path?: TPath;
 };
 
 export type TIsExtensibleObserver = {
     type: "isExtensible";
-    key?: string;
+    path?: TPath;
 };
 
 export type TPreventExtensionsObserver = {
     type: "preventExtensions";
-    key?: string;
+    path?: TPath;
 };
 
 export type TDefinePropertyObserver = {
     type: "defineProperty";
     attributes: TAttributes;
     definedKey: TProxyKey;
-    key?: string;
+    path?: TPath;
 };
 
 export type TGetOwnPropertyDescriptorObserver = {
     type: "getOwnPropertyDescriptor";
     requestedKey: TProxyKey;
-    key?: string;
+    path?: TPath;
 };
 
 export type TObserver = (

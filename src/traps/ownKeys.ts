@@ -1,15 +1,19 @@
-import type { TObserver, TPath, TSubjectObject } from "../types";
-import { getObjectTrace } from "../utils";
+import type { TObserver, TOwnKeysObserver, TPath, TSubjectObject } from "../types";
 
 export const createOwnKeysTrap = (observer: TObserver, path: TPath) => {
     return (target: TSubjectObject) => {
         const keys = Reflect.ownKeys(target);
 
-        observer({
+        const observerArg: TOwnKeysObserver = {
             type: "ownKeys",
-            key: path ? getObjectTrace(path) : null,
             value: keys,
-        });
+        };
+
+        if (path) {
+            observerArg.path = path;
+        }
+
+        observer(observerArg);
 
         return keys;
     };

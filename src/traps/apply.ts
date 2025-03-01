@@ -13,7 +13,7 @@ export const createApplyTrap = (observer: TObserver, path: TPath) => {
         const observerArg: TApplyObserver = { type: "apply", args };
 
         if (path) {
-            observerArg.key = path;
+            observerArg.path = path;
         }
 
         observer(observerArg);

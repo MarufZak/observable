@@ -5,7 +5,7 @@ export const createDeletePropertyTrap = (observer: TObserver, path: TPath) => {
     return (target: TSubjectObject, key: TKey) => {
         observer({
             type: "delete",
-            key: getObjectTrace(path, key),
+            path: getObjectTrace(path, key),
             value: target[key],
         });
 

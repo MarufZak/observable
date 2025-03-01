@@ -7,7 +7,7 @@ export const createPreventExtensionsTrap = (observer: TObserver, path: TPath) =>
         };
 
         if (path) {
-            observerArg.key = path;
+            observerArg.path = path;
         }
 
         observer(observerArg);

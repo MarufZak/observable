@@ -9,7 +9,7 @@ export const createGetPrototypeOfTrap = (observer: TObserver, path: TPath) => {
         // object can be property of another object,
         // so we include path to the observer output.
         if (path) {
-            observerArg.key = path;
+            observerArg.path = path;
         }
 
         observer(observerArg);

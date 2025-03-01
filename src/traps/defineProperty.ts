@@ -16,7 +16,7 @@ export const createDefinePropertyTrap = (observer: TObserver, path: TPath) => {
         };
 
         if (path) {
-            observerArg.key = path;
+            observerArg.path = path;
         }
 
         observer(observerArg);

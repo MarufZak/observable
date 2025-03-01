@@ -7,7 +7,7 @@ export const createGetTrap = (observer: TObserver, path: TPath) => {
 
         observer({
             type: "get",
-            key: getObjectTrace(path, key),
+            path: getObjectTrace(path, key),
             value,
         });
 
