@@ -5,6 +5,7 @@ import { createDeletePropertyTrap } from "./deleteProperty";
 import { createOwnKeysTrap } from "./ownKeys";
 import { createHasTrap } from "./has";
 import { createApplyTrap } from "./apply";
+import { createConstructTrap } from "./construct";
 import { createGetPrototypeOfTrap } from "./getPrototypeOf";
 import { createSetPrototypeOfTrap } from "./setPrototypeOf";
 import { createIsExtensibleTrap } from "./isExtensible";
@@ -17,6 +18,7 @@ export const getTraps = (observer: TObserver, path: TPath) => {
     const set = createSetTrap(observer, path);
     const deleteProperty = createDeletePropertyTrap(observer, path);
     const apply = createApplyTrap(observer, path);
+    const construct = createConstructTrap(observer);
     const getPrototypeOf = createGetPrototypeOfTrap(observer, path);
     const setPrototypeOf = createSetPrototypeOfTrap(observer, path);
     const isExtensible = createIsExtensibleTrap(observer, path);
@@ -29,6 +31,7 @@ export const getTraps = (observer: TObserver, path: TPath) => {
         set,
         deleteProperty,
         apply,
+        construct,
         getPrototypeOf,
         setPrototypeOf,
         isExtensible,

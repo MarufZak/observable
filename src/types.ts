@@ -44,7 +44,12 @@ export type TDeleteObserver = {
 export type TApplyObserver = {
     type: "apply";
     key?: string;
-    args: any;
+    args: TArgs;
+};
+
+export type TConstructObserver = {
+    type: "construct";
+    args: TArgs;
 };
 
 export type TGetPrototypeOfObserver = {
@@ -76,6 +81,7 @@ export type TObserver = (
         | TOwnKeysObserver
         | THasObserver
         | TApplyObserver
+        | TConstructObserver
         | TGetPrototypeOfObserver
         | TSetPrototypeOfObserver
         | TIsExtensibleObserver
