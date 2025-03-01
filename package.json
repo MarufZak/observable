@@ -1,6 +1,10 @@
 {
     "name": "@marufzak/observable",
     "description": "A lightweight reactive programming library for JavaScript and TypeScript",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/MarufZak/observable"
+    },
     "version": "1.0.0",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
