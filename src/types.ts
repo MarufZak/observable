@@ -63,6 +63,11 @@ export type TIsExtensibleObserver = {
     key?: string;
 };
 
+export type TPreventExtensionsObserver = {
+    type: "isExtensible";
+    key?: string;
+};
+
 export type TObserver = (
     args:
         | TGetObserver
@@ -74,4 +79,5 @@ export type TObserver = (
         | TGetPrototypeOfObserver
         | TSetPrototypeOfObserver
         | TIsExtensibleObserver
+        | TPreventExtensionsObserver
 ) => void;
